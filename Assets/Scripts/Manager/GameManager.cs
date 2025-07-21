@@ -8,8 +8,9 @@ using System.Collections.Generic;
 public class GameManager : Singleton<GameManager>
 {
     //메뉴
-    private OptionUI optionUI;
-    private RankingUI rankingUI;
+    public MenuUI menuUI;
+    public OptionUI optionUI;
+    public RankingUI rankingUI;
 
     //인게임
 
@@ -34,6 +35,7 @@ public class GameManager : Singleton<GameManager>
 
         if (scene.name == "Menu")
         {
+            menuUI = FindFirstObjectByType<MenuUI>();
             optionUI = FindFirstObjectByType<OptionUI>();
             rankingUI = FindFirstObjectByType<RankingUI>();
 
