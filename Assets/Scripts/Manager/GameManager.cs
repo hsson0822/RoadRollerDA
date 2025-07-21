@@ -14,7 +14,7 @@ public class GameManager : Singleton<GameManager>
     //¿Œ∞‘¿”
 
     private ControllerUI controllerUI;
-    public ControlType controlType = ControlType.JOYSTICK;
+    public ControlType controlType = ControlType.BUTTON;
 
 
     protected override void Awake()

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Windows;
 using static UnityEngine.GraphicsBuffer;
 
@@ -8,6 +9,9 @@ public class RoadRoller : MonoBehaviour
     public float rotationSpeed = 5f;
 
     public VariableJoystick variableJoystick;
+    public DirButtonInput leftButton;
+    public DirButtonInput rightButton;
+
     public Rigidbody rb;
 
     private Vector3 moveDirection;
@@ -35,9 +39,18 @@ public class RoadRoller : MonoBehaviour
         //rb.linearVelocity = velocity;
 
         //transform.rotation = Quaternion.LookRotation(direction * 90f);
+        float horizontal = 0f;
+        float vertical = 0f;
 
-        float horizontal = variableJoystick.Horizontal;
-        float vertical = variableJoystick.Vertical;
+        if (GameManager.Instance.controlType == ControlType.JOYSTICK)
+        {
+            horizontal = variableJoystick.Horizontal;
+            vertical = variableJoystick.Vertical;
+        }
+        else if(GameManager.Instance.controlType == ControlType.BUTTON)
+        {
+            horizontal = leftButton.GetValue() + rightButton.GetValue();
+        }
 
         Vector3 inputDir = new Vector3(horizontal, 0f, vertical).normalized;
 
