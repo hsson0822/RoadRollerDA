@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 using System;
 using System.Collections.Generic;
 
+
+
 public class GameManager : Singleton<GameManager>
 {
     //메뉴
@@ -11,6 +13,8 @@ public class GameManager : Singleton<GameManager>
 
     //인게임
 
+    private ControllerUI controllerUI;
+    public ControlType controlType = ControlType.JOYSTICK;
 
 
     protected override void Awake()
@@ -38,7 +42,7 @@ public class GameManager : Singleton<GameManager>
         }
         else if(scene.name == "InGame")
         {
-
+            
         }
     }
 }
