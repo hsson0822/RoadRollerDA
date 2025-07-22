@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum SFX
 {
@@ -15,79 +16,124 @@ public enum BGM
 
 public class AudioManager : Singleton<AudioManager>
 {
-    [SerializeField]
-    private AudioSource sfxSource = null;
-    [SerializeField]
-    private AudioSource bgmSource = null;
+    private AudioSource BGMSource = null;
+    private AudioSource SFXSource = null;
 
     [SerializeField]
-    private AudioClip[] sfxList = { };
+    private AudioClip[] BGMList = { };
     [SerializeField]
-    private AudioClip[] bgmList = { };
+    private AudioClip[] SFXList = { };
+
+    private float lastBGMVolume = 0f;
+    private float lastSFXVolume = 0f;
 
     protected override void Awake()
     {
         base.Awake();
 
-        this.sfxSource.loop = false;
-        this.bgmSource.loop = true;
+        AudioSource[] sources = GetComponents<AudioSource>();
+        BGMSource = sources[0];
+        SFXSource = sources[1];
+
+        BGMSource.loop = true;
+        SFXSource.loop = false;
+
+        BGMSource.volume = 100f;
+        SFXSource.volume = 100f;
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    public static void PlayBgm(BGM _bgmType)
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        int bgmType = (int)_bgmType;
-        Instance.bgmSource.clip = Instance.bgmList[bgmType];
-        Instance.bgmSource.Play();
+        
     }
 
-    public static void PlaySfx(SFX _sfxType, float _distance = 4f)
+    public static void PlayBGM(BGM _bgmType)
     {
-        int sfxNumber = (int)_sfxType;
-        Instance.sfxSource.PlayOneShot(Instance.sfxList[sfxNumber], Instance.sfxSource.volume);
+        //int bgmType = (int)_bgmType;
+        //Instance.bgmSource.clip = Instance.bgmList[bgmType];
+        //Instance.bgmSource.Play();
     }
 
-    public static void StopSfx()
+    public static void PlaySFX(SFX _sfxType, float _distance = 4f)
     {
-        Instance.sfxSource.Stop();
+        //int sfxNumber = (int)_sfxType;
+        //Instance.sfxSource.PlayOneShot(Instance.sfxList[sfxNumber], Instance.sfxSource.volume);
     }
-    public static void StopBgm()
+    public void StopBGM()
     {
-        Instance.bgmSource.Stop();
-    }
-
-    public static void SetMuteSfx(bool _mute)
-    {
-        Instance.sfxSource.mute = _mute;
-    }
-    public static void SetMuteBgm(bool _mute)
-    {
-        Instance.bgmSource.mute = _mute;
+        BGMSource.Stop();
     }
 
-    public static void ChangeSfxVolume(float _value)
+    public void StopSFX()
     {
-        Instance.sfxSource.volume = _value;
-    }
-    public static void ChangeBgmVolume(float _value)
-    {
-        Instance.bgmSource.volume = _value;
+        SFXSource.Stop();
     }
 
-    public static float GetVolumeSfx()
+    public void SetMuteBGM(bool _mute)
     {
-        return Instance.sfxSource.volume;
-    }
-    public static float GetVolumeBgm()
-    {
-        return Instance.bgmSource.volume;
+        if(_mute)
+        {
+            lastBGMVolume = BGMSource.volume;
+            BGMSource.volume = 0f;
+        }
+        else
+        {
+            BGMSource.volume = lastBGMVolume;
+        }
+
+        BGMSource.mute = _mute;
     }
 
-    public static bool GetMuteSfx()
+    public void SetMuteSFX(bool _mute)
     {
-        return Instance.sfxSource.mute;
+        if (_mute)
+        {
+            lastSFXVolume = SFXSource.volume;
+            SFXSource.volume = 0f;
+        }
+        else
+        {
+            SFXSource.volume = lastSFXVolume;
+        }
+
+        SFXSource.mute = _mute;
     }
-    public static bool GetMuteBgm()
+    public void ChangeBGMVolume(float _value)
     {
-        return Instance.bgmSource.mute;
+        BGMSource.volume = _value;
+    }
+
+    public void ChangeSFXVolume(float _value)
+    {
+        SFXSource.volume = _value;
+    }
+
+    public float GetVolumeSFX()
+    {
+        return SFXSource.volume;
+    }
+    public float GetVolumeBGM()
+    {
+        return BGMSource.volume;
+    }
+    public float GetLastBGM()
+    {
+        return lastBGMVolume;
+    }
+
+    public float GetLastSFX()
+    {
+        return lastSFXVolume;
+    }
+
+    public bool GetMuteSFX()
+    {
+        return SFXSource.mute;
+    }
+    public bool GetMuteBGM()
+    {
+        return BGMSource.mute;
     }
 }
