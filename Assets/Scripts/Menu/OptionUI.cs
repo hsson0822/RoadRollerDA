@@ -110,6 +110,17 @@ public class OptionUI : MonoBehaviour
             if (controlToggles[i].isOn)
                 GameManager.Instance.controlType = (ControlType)i;
 
+        if (GameManager.Instance.controlType == ControlType.HANDLE)
+        {
+            if (!SystemInfo.supportsGyroscope)
+            {
+                controlToggles[0].SetIsOnWithoutNotify(true);
+                controlToggles[2].SetIsOnWithoutNotify(false);
+                GameManager.Instance.controlType = ControlType.JOYSTICK;
+                Debug.Log("센서를 지원하지 않음");
+            }
+        }
+
         //Debug.Log(GameManager.Instance.controlType);
     }
 }

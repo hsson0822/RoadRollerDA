@@ -1,6 +1,6 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Windows;
 using static UnityEngine.GraphicsBuffer;
 
 public class RoadRoller : MonoBehaviour
@@ -50,6 +50,12 @@ public class RoadRoller : MonoBehaviour
         else if(GameManager.Instance.controlType == ControlType.BUTTON)
         {
             horizontal = leftButton.GetValue() + rightButton.GetValue();
+        }
+        else if(GameManager.Instance.controlType == ControlType.HANDLE)
+        {
+            horizontal = Input.acceleration.x;
+            //Gyroscope gyro = Input.gyro;
+            //horizontal = new Quaternion(gyro.attitude.x, gyro.attitude.y, -gyro.attitude.z, -gyro.attitude.w);
         }
 
         Vector3 inputDir = new Vector3(horizontal, 0f, vertical).normalized;
