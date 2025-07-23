@@ -84,6 +84,15 @@ public class RoadRoller : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(defaultForward, Vector3.up);
             rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * 0.6f * Time.fixedDeltaTime));
         }
+    }
 
+    public void OnCrushPointTrigger(Collider other)
+    {
+        Debug.Log("Crush Car");
+
+        if (other != null)
+            other.GetComponent<Cars>().CrushCar();
+        else
+            Debug.Log("NULL");
     }
 }
