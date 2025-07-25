@@ -1,7 +1,8 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using System;
 using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 
@@ -13,7 +14,6 @@ public class GameManager : Singleton<GameManager>
     public RankingUI rankingUI;
 
     //¿Œ∞‘¿”
-
     private ControllerUI controllerUI;
     public ControlType controlType = ControlType.BUTTON;
 
@@ -35,6 +35,8 @@ public class GameManager : Singleton<GameManager>
 
         if (scene.name == "Menu")
         {
+            resetToNull();
+
             menuUI = FindFirstObjectByType<MenuUI>();
             optionUI = FindFirstObjectByType<OptionUI>();
             rankingUI = FindFirstObjectByType<RankingUI>();
@@ -44,7 +46,22 @@ public class GameManager : Singleton<GameManager>
         }
         else if(scene.name == "InGame")
         {
-            
+            resetToNull();
+
+            controllerUI = FindFirstObjectByType<ControllerUI>();
         }
+        else
+        {
+            resetToNull();
+        }
+    }
+
+    private void resetToNull()
+    {
+        menuUI = null;
+        optionUI = null;
+        rankingUI = null;
+
+        controllerUI = null;
     }
 }
