@@ -6,6 +6,8 @@ public class ObjectPoolManager : MonoBehaviour
 {
 
     static ObjectPoolManager instance;
+    public static ObjectPoolManager Instance { get; }
+
 
     private void Awake()
     {
@@ -19,10 +21,6 @@ public class ObjectPoolManager : MonoBehaviour
         PoolInit();
     }
 
-    public static ObjectPoolManager GetInstance()
-    {
-        return instance;
-    }
 
     public ObjectPool carPool;
 
